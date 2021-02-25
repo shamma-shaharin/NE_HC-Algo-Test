@@ -4,6 +4,8 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 
 def Read_Config():
@@ -17,9 +19,9 @@ def Get_Driver(config):
     options.add_argument('--ignore-certificate-errors')
 
     if config["browser"] == "chrome":
-        return webdriver.Chrome(options=options)
+        return webdriver.Chrome(ChromeDriverManager().install(), options=options)
     elif config["browser"] == "firefox":
-        return webdriver.firefox(options=options)
+        webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
     else:
         raise Exception(f'"{config["browser"]}" is not a supported browser')
 
@@ -39,6 +41,19 @@ def Write_Output(output, config):
         for result in output:
             writer.writerow({'Form_Id': result.formId, 'Test_Status': result.testStatus,
                              'Expected_Output': result.expectedOutput, 'Actual_Output': result.actualOutput})
+
+
+def Write_Error_Output(errorOutput, config):
+    errorOutputFile = open(config["errorOutputFilePath"], 'w', newline='')
+
+    with errorOutputFile:
+        headers = ['Form_Id', 'Row_Number', 'Exception_Message']
+        writer = csv.DictWriter(errorOutputFile, fieldnames=headers)
+        writer.writeheader()
+
+        for error in errorOutput:
+            writer.writerow({'Form_Id': error.formId, 'Row_Number': error.rowNumber,
+                             'Exception_Message': error.errorMessage})
 
 
 def Sleep(second):
