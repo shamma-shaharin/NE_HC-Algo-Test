@@ -34,13 +34,14 @@ def Write_Output(output, config):
     outputFile = open(config["outputFilePath"], 'w', newline='')
 
     with outputFile:
-        headers = ['Form_Id', 'Test_Status', 'Expected_Output', 'Actual_Output']
+        headers = ['Form_Id', 'Test_Status', 'Expected_Output_1', 'Actual_Output_1', 'Expected_Output_2', 'Actual_Output_2']
         writer = csv.DictWriter(outputFile, fieldnames=headers)
         writer.writeheader()
 
         for result in output:
             writer.writerow({'Form_Id': result.formId, 'Test_Status': result.testStatus,
-                             'Expected_Output': result.expectedOutput, 'Actual_Output': result.actualOutput})
+                             'Expected_Output_1': result.expectedOutput1, 'Actual_Output_1': result.actualOutput1,
+                             'Expected_Output_2': result.expectedOutput2, 'Actual_Output_2': result.actualOutput2})
 
 
 def Write_Error_Output(errorOutput, config):
@@ -78,3 +79,7 @@ def MapI2CodingSystemIdByValue(value):
         return "1"
     elif value.lower() == "icd-9":
         return "2"
+
+
+def RemoveWhitespaces(row):
+    return {k.strip(): v.strip() for k, v in row.items()}

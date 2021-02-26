@@ -67,16 +67,16 @@ def Submit_Sections(driver, row):
     # Submit_Section_T(driver, row)
 
 
-def Submit_Form(driver, row, formId, output):
+def Submit_Form(driver, row, formId, output, rowNumber):
     driver.find_element_by_name("_action_update_show").click()
     driver.find_element_by_name("_action_submit").click()
 
-    Get_Score_And_Determine_Output(driver, formId, output, row)
+    Get_Score_And_Determine_Output(driver, formId, output, row, rowNumber)
 
     driver.find_element_by_name("_action_confirm").click()
 
 
-def Get_Score_And_Determine_Output(driver, formId, output, row):
+def Get_Score_And_Determine_Output(driver, formId, output, row, rowNumber):
     NF_LOC_Adult_Value = driver.find_elements_by_xpath(
         "//table[@class='table table-bordered table-striped ']/tbody/tr[1]/td[2]")[0].text
     NF_LOC_Adult_Value_Label = driver.find_elements_by_xpath(
@@ -87,8 +87,10 @@ def Get_Score_And_Determine_Output(driver, formId, output, row):
     LOC_Adult_Met_Reason_Value_Label = driver.find_elements_by_xpath(
         "//table[@class='table table-bordered table-striped ']/tbody/tr[3]/td[3]")[0].text
 
-    expectedOutput = row["Expected_Output"]
-    actualOutput = NF_LOC_Adult_Value + "-" + LOC_Adult_Met_Reason_Value
-    testStatus = expectedOutput == actualOutput
-    output.append(NEHCAlgorithmScore(formId, NF_LOC_Adult_Value, LOC_Adult_Met_Reason_Value, testStatus, expectedOutput,
-                                     actualOutput))
+    expectedOutput1 = row["Expected_Output_1"]
+    expectedOutput2 = row["Expected_Output_2"]
+    testStatus = expectedOutput1.strip().lower() == NF_LOC_Adult_Value.strip().lower() and expectedOutput2.strip().lower() == LOC_Adult_Met_Reason_Value.strip().lower()
+    output.append(
+        NEHCAlgorithmScore(formId, NF_LOC_Adult_Value, LOC_Adult_Met_Reason_Value, testStatus, expectedOutput1,
+                           NF_LOC_Adult_Value, expectedOutput2,
+                           LOC_Adult_Met_Reason_Value, rowNumber))

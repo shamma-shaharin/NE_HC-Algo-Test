@@ -21,9 +21,10 @@ class Test(unittest.TestCase):
 
             for row in inputRows:
                 try:
+                    row = RemoveWhitespaces(row)
                     formId = Create_Form(driver, config)
                     Submit_Sections(driver, row)
-                    Submit_Form(driver, row, formId, output)
+                    Submit_Form(driver, row, formId, output, rowNumber)
                 except Exception as ex:
                     errorOutput.append(ErrorResponse(formId, str(rowNumber), repr(ex)))
                 finally:

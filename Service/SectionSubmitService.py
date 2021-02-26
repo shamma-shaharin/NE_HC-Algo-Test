@@ -97,9 +97,10 @@ def Submit_Section_F(driver, row):
     F3 = driver.find_element_by_xpath(
         "//input[@name='answers[7].refData' and @value='" + AdjustValue(row["F3"], 0) + "']")
     F3.click()
-    F4 = driver.find_element_by_xpath(
-        "//input[@name='answers[8].refData' and @value='" + AdjustValue(row["F4"], 0) + "']")
-    F4.click()
+
+    F4_Length_Time_Alone = driver.find_element_by_xpath(
+        "//input[@name='answers[8].refData' and @value='" + AdjustValue(row["F4_Length_Time_Alone"], 0) + "']")
+    F4_Length_Time_Alone.click()
 
     driver.find_element_by_name("_action_update_next").click()
 
@@ -346,13 +347,13 @@ def Submit_Section_O(driver, row):
 
 
 def Submit_Section_P(driver, row):
-    P1_Areas_Inf_Help_d1 = driver.find_element_by_xpath(
-        "//input[@name='answers[6].refData' and @value='" + AdjustValue(row["P1_Areas_Inf_Help_d1"], 0) + "']")
-    P1_Areas_Inf_Help_d1.click()
+    P1d1_Areas_Inf_Help = driver.find_element_by_xpath(
+        "//input[@name='answers[6].refData' and @value='" + AdjustValue(row["P1d1_Areas_Inf_Help"], 0) + "']")
+    P1d1_Areas_Inf_Help.click()
 
-    P1_Areas_Inf_Help_d2 = driver.find_element_by_xpath(
-        "//input[@name='answers[7].refData' and @value='" + AdjustValue(row["P1_Areas_Inf_Help_d2"], 0) + "']")
-    P1_Areas_Inf_Help_d2.click()
+    P1d2_Areas_Inf_Help = driver.find_element_by_xpath(
+        "//input[@name='answers[7].refData' and @value='" + AdjustValue(row["P1d2_Areas_Inf_Help"], 0) + "']")
+    P1d2_Areas_Inf_Help.click()
 
     driver.find_element_by_name("_action_update_next").click()
 
